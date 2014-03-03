@@ -1,0 +1,97 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   rt.h                                               :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: nquere <nquere@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2014/02/15 13:46:19 by nquere            #+#    #+#             */
+/*   Updated: 2014/02/16 21:53:27 by nquere           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#ifndef RT_H
+# define RT_H
+
+# include <mlx.h>
+# include <unistd.h>
+# include <stdlib.h>
+# include <libft.h>
+# include <sys/types.h>
+# include <sys/stat.h>
+# include <fcntl.h>
+# include <math.h>
+
+# define SPHERE 1
+# define PLAN 2
+# define CYLINDRE 3
+
+typedef struct	s_list
+{
+	struct s_list	*next;
+	double			size;
+	int				type;
+	double			x;
+	double			y;
+	double			z;
+}				t_list;
+
+typedef struct	s_pt
+{
+	struct s_pt	*next;
+	double		x;
+	double		y;
+	double		z;
+}				t_pt;
+
+typedef struct	s_var
+{
+	double		a;
+	double		b;
+	double		c;
+}				t_var;
+
+typedef struct	s_env
+{
+	void		*mlx;
+	void		*mlx_win;
+	t_list		*list;
+	int			color;
+	int			width;
+	int			height;
+	double		plan_width;
+	double		plan_height;
+	double		plan_dist;
+	t_pt		*cam;
+	t_pt		*spot;
+	t_pt		*s;
+	t_pt		*dir;
+	double		sdirx;
+	double		sdiry;
+	double		sdirz;
+	double		sdist;
+	double		spotnorm;
+	double		dirnorm;
+	double		distspot;
+	double		cos;
+	double		x;
+	double		y;
+	double		delta;
+	int			r;
+	int			g;
+	int			b;
+}				t_env;
+
+void		init_cam(t_env *e);
+void		init_spot(t_env *e);
+void		init_dir(t_env *e);
+void		init_rt(t_env *e);
+double		mpow(double x);
+void		calculate_color_sphere(t_env *e, t_list *temp);
+void		calculate_color_cylindre(t_env *e, t_list *temp);
+void		calculate_color_plan(t_env *e, t_list *temp);
+int			check_inter_plan(t_env *e);
+int			check_inter_cylindre(t_env *e, t_list *temp);
+int			check_inter_sphere(t_env *e, t_list *temp);
+
+#endif /* !RT_H */
