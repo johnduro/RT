@@ -6,7 +6,7 @@
 /*   By: mle-roy <mle-roy@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/03/03 19:09:44 by mle-roy           #+#    #+#             */
-/*   Updated: 2014/03/04 12:58:57 by mle-roy          ###   ########.fr       */
+/*   Updated: 2014/03/04 14:27:01 by mle-roy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -339,9 +339,9 @@ int			main(int argc, char **argv)
 		return (0);
 	}
 	lex = get_lex(argv[1]);
-	print_lex(lex);
+	print_lex(lex); //nonon
 	e = init_env(lex);
-	printf("\n\n");
-	print_env(e);
+	printf("\n\n"); //nononon
+	print_env(e); //nononon
 	return (0);
 }
