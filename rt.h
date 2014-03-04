@@ -6,7 +6,7 @@
 /*   By: mle-roy <mle-roy@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/03/03 16:02:36 by mle-roy           #+#    #+#             */
-/*   Updated: 2014/03/04 12:34:59 by mle-roy          ###   ########.fr       */
+/*   Updated: 2014/03/04 17:55:25 by nquere           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,7 @@ typedef struct		s_cam
 
 typedef struct		s_calc
 {
-	t_vek				*vek;
+	t_vek				*dir;
 	double				spotnorm;
 	double				dirnorm;
 	double				cos;
@@ -95,6 +95,7 @@ typedef struct		s_env
 	t_cam				*cam;
 	t_obj				*obj;
 	t_spot				*spot;
+	t_calc				*calc;
 }					t_env;
 
 int			ft_hextoi(const char *str);
