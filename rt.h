@@ -6,7 +6,7 @@
 /*   By: mle-roy <mle-roy@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/03/03 16:02:36 by mle-roy           #+#    #+#             */
-/*   Updated: 2014/03/04 17:55:25 by nquere           ###   ########.fr       */
+/*   Updated: 2014/03/04 19:45:05 by mle-roy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,5 +99,14 @@ typedef struct		s_env
 }					t_env;
 
 int			ft_hextoi(const char *str);
+t_lx		*get_lex(char *scene);
+t_env		*init_env(t_lx *lex);
+void		add_info(t_env *e, t_lex *lex);
+void		add_spot(t_env *e, t_lex *lex);
+void		add_obj(t_env *e, t_lex *lex);
+void		add_cam(t_env *e, t_lex *lex);
+
+void		print_env(t_env *e); //nononon
+void		print_lex(t_lx *lex); //nononon
 
 #endif /* !RT_H */
