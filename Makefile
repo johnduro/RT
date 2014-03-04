@@ -5,18 +5,19 @@
 #                                                     +:+ +:+         +:+      #
 #    By: mle-roy <mle-roy@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2014/03/03 19:35:00 by mle-roy           #+#    #+#              #
-#    Updated: 2014/03/03 19:35:00 by mle-roy          ###   ########.fr        #
+#    Created: 2014/03/04 12:48:29 by mle-roy           #+#    #+#              #
+#    Updated: 2014/03/04 12:48:29 by mle-roy          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME=rt_gh
-VERSION=1.0.1
+VERSION=1.0.2
 CFLAGS=-Wall -Werror -Wextra -g
 INCLUDES=-I ./libft/includes
 LIBS=-L ./libft -l ft
 
-SRC=main.c \
+SRC=ft_hextoi.c \
+	main.c \
 
 OBJ=$(SRC:.c=.o)
 

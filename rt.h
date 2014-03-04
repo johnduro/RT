@@ -6,7 +6,7 @@
 /*   By: mle-roy <mle-roy@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/03/03 16:02:36 by mle-roy           #+#    #+#             */
-/*   Updated: 2014/03/03 19:20:36 by mle-roy          ###   ########.fr       */
+/*   Updated: 2014/03/04 12:34:59 by mle-roy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,11 +90,13 @@ typedef struct		s_env
 	void				*win;
 	int					width;
 	int					height;
-	double				plan_dist;
+	double				focal;
 	int					color;
 	t_cam				*cam;
 	t_obj				*obj;
 	t_spot				*spot;
 }					t_env;
+
+int			ft_hextoi(const char *str);
 
 #endif /* !RT_H */

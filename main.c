@@ -6,7 +6,7 @@
 /*   By: mle-roy <mle-roy@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/03/03 19:09:44 by mle-roy           #+#    #+#             */
-/*   Updated: 2014/03/03 21:54:21 by mle-roy          ###   ########.fr       */
+/*   Updated: 2014/03/04 12:58:57 by mle-roy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,7 +110,7 @@ void		add_info(t_env *e, t_lex *lex)
 		else if (!ft_strcmp(tab[0], "focal"))
 			e->focal = ft_atoi(tab[1]);
 		else if (!ft_strcmp(tab[0], "color"))
-			e->color = ;//a rajouter, atoihexa
+			e->color = ft_hextoi(tab[1]); //ca marche ?
 		ft_tabfree(&tab);
 		tmp = tmp->next;
 	}
@@ -143,7 +143,7 @@ void		add_spot(t_env *e, t_lex *lex)
 	new->next = NULL;
 	new->prev = NULL;
 	tab = ft_strsplitspace(lex->str);
-	new = ft_strdup(tab[1]);
+	new->name = ft_strdup(tab[1]);
 	ft_tabfree(&tab);
 	tmp = lex->next;
 	while (tmp && (tmp->str)[0] != '#')
@@ -169,6 +169,7 @@ char		get_type(char *str)
 		return (CYL);
 	else if (!ft_strcmp(str, "plan"))
 		return (PLAN);
+	return (0);
 }
 
 void		fill_obj(t_obj *new, t_lex *lex)
@@ -189,7 +190,7 @@ void		fill_obj(t_obj *new, t_lex *lex)
 		else if (!ft_strcmp(tab[0], "size"))
 			new->size = (double) ft_atoi(tab[1]);
 		else if (!ft_strcmp(tab[0], "color"))
-			new->color = ;//faire le atoihexa
+			new->color = ft_hextoi(tab[1]); //ca marche ??
 		ft_tabfree(&tab);
 		lex = lex->next;
 	}
@@ -227,6 +228,39 @@ void		add_obj(t_env *e, t_lex *lex)
 	add_obj_env(e, new);
 }
 
+int			check_env(t_env *e)
+{
+	if (e->width <= 0 || e->height <= 0)
+		return (1);
+	else if (e->cam == NULL || e->obj == NULL || e->spot == NULL)
+		return (1);
+	return (0);
+}
+
+void		add_cam(t_env *e, t_lex *lex)
+{
+	t_cam	*new;
+	t_lex	*tmp;
+	char	**tab;
+
+	if ((new = (t_cam *)malloc(sizeof(*new))) == NULL)
+		ft_exit("malloc", 1);
+	tmp = lex->next;
+	while (tmp && (tmp->str)[0] != '#')
+	{
+		tab = ft_strsplitspace(tmp->str);
+		if (!ft_strcmp(tab[0], "x"))
+			new->x = (double) ft_atoi(tab[1]);
+		else if (!ft_strcmp(tab[0], "y"))
+			new->y = (double) ft_atoi(tab[1]);
+		else if (!ft_strcmp(tab[0], "z"))
+			new->z = (double) ft_atoi(tab[1]);
+		ft_tabfree(&tab);
+		tmp = tmp->next;
+	}
+	e->cam = new;
+}
+
 t_env		*init_env(t_lx *lex)
 {
 	t_env	*new;
@@ -243,17 +277,60 @@ t_env		*init_env(t_lx *lex)
 			add_spot(new, browse);
 		if (!ft_strncmp(browse->str, "#OBJ", 4))
 			add_obj(new, browse);
+		if (!ft_strncmp(browse->str, "#CAM", 4))
+			add_cam(new, browse);
 		browse = browse->next;
 	}
 	if (check_env(new))
+	{
+		write(2, "RT error: not enought information\n", 34);
 		exit(0);
+	}
+//	new->mlx = mlx_init();
+//	new->win = mlx_new_window(new->mlx, new->width, new->height, "RT");
 	return (new);
 }
 
 
+void		print_env(t_env *e)
+{
+	t_obj	*obj;
+	t_spot	*spot;
+
+	printf("width=%d\n", e->width);
+	printf("height=%d\n", e->height);
+	printf("focal=%f\n", e->focal);
+	printf("color=%d\n", e->color);
+	if (e->cam)
+		printf("CAM = x[%f]y[%f]z[%f]\n", e->cam->x, e->cam->y, e->cam->z);
+	if (e->obj)
+	{
+		obj = e->obj;
+		while (obj)
+		{
+			printf("OBJ\nname=%s\n", obj->name);
+			printf("type=%d\n", obj->type);
+			printf("color=%d\n", obj->color);
+			printf("x[%f]y[%f]z[%f]\n", obj->x, obj->y, obj->z);
+			printf("size=%f\n", obj->size);
+			obj = obj->next;
+		}
+	}
+	if (e->spot)
+	{
+		spot = e->spot;
+		while (spot)
+		{
+			printf("SPOT\nname=%s\n", spot->name);
+			printf("x[%f]y[%f]z[%f]\n", spot->x, spot->y, spot->z);
+			spot = spot->next;
+		}
+	}
+}
+
 int			main(int argc, char **argv)
 {
-//	t_env		*e;
+	t_env		*e;
 	t_lx		*lex;
 
 	if (argc != 2)
@@ -264,5 +341,7 @@ int			main(int argc, char **argv)
 	lex = get_lex(argv[1]);
 	print_lex(lex);
 	e = init_env(lex);
+	printf("\n\n");
+	print_env(e);
 	return (0);
 }
